@@ -2191,7 +2191,7 @@ button:focus-visible {
   border-radius: 8px;
   background: #fff;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.28);
-  animation: compare-slot-enter 300ms ease-out both;
+  animation: none;
 }
 
 .compare-slot-card::before {
@@ -2214,6 +2214,9 @@ button:focus-visible {
   height: 112px;
   display: block;
   pointer-events: none;
+  filter: none;
+  opacity: 1;
+  transform: none;
 }
 
 .compare-slot-remove {
@@ -2259,7 +2262,10 @@ button:focus-visible {
   background: transparent;
   cursor: pointer;
   padding: 0;
-  animation: compare-selected-cta-enter 300ms ease-out both;
+  animation: none;
+  opacity: 1;
+  filter: none;
+  transform: none;
 }
 
 .compare-selected-button img {
@@ -2267,6 +2273,9 @@ button:focus-visible {
   height: 34px;
   display: block;
   pointer-events: none;
+  opacity: 1;
+  filter: none;
+  transform: none;
 }
 
 .compare-row-selection-glow {
@@ -2327,9 +2336,7 @@ button:focus-visible {
   width: 390px;
   height: 62px;
   z-index: 2;
-  background: rgba(255, 255, 255, 0.08);
-  -webkit-backdrop-filter: blur(2px) saturate(1);
-  backdrop-filter: blur(2px) saturate(1);
+  background: rgba(255, 255, 255, 0.92);
   pointer-events: none;
 }
 
