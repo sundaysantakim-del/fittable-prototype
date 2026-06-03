@@ -1,0 +1,10 @@
+{
+  "name": "fittable-feature-prototype",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check src/App.js",
+    "build": "node scripts/build-static.mjs",
+    "preview": "python3 -m http.server 4173 --directory dist --bind 127.0.0.1"
+  }
+}

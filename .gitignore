@@ -1,0 +1,4 @@
+dist/
+.figma-design-*.html
+.DS_Store
+node_modules/
