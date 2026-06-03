@@ -427,12 +427,22 @@ function ProductCompareScreen({
   return h("div", { className: "figma-result-screen" }, [
     h("img", {
       className: "figma-result-image",
-      src: selected ? `${A}feature3-compare_4.svg?v=sharp2` : `${A}feature3-compare_2.svg?v=sharp2`,
+      src: selected ? `${A}feature3-compare_4.svg?v=sharp2` : `${A}feature3-compare_2.svg?v=realtext4`,
       alt: "제품 비교 화면",
       key: "image",
     }),
     h("button", { className: "compare-back-hotspot", "aria-label": "추천 결과로 돌아가기", onClick: onBack, key: "back" }),
     selected ? null : [
+      h("div", { className: "compare-tabs-mask", key: "tabs-mask" }),
+      h("nav", { className: "compare-tabs-real", "aria-label": "비교 상품 카테고리", key: "tabs" },
+        ["전체", "한끼식단", "간식", "음료", "베이커리"].map((label, index) =>
+          h("button", {
+            className: `compare-tab-real${index === 0 ? " is-active" : ""}`,
+            type: "button",
+            key: label,
+          }, label)
+        )
+      ),
       selectedProductItems.map((product, slotIndex) => h("div", {
         className: "compare-slot-card",
         style: { left: `${compareSlotLefts[slotIndex]}px` },
@@ -466,7 +476,10 @@ function ProductCompareScreen({
         onClick: () => onToggleProduct(product),
         style: { top: `${compareSelectButtonTops[product.rowIndex]}px` },
         key: `selected-${product.id}`,
-      }, h("img", { src: `${A}compare-selected-cta.svg?v=exact1`, alt: "선택됨" }))),
+      }, [
+        h("span", { className: "compare-selected-check", key: "check" }),
+        h("span", { key: "label" }, "선택됨"),
+      ])),
       compareSelectButtonTops.map((top, index) => {
         const product = compareDemoProducts.find((item) => item.rowIndex === index);
         return h("button", {
@@ -475,7 +488,10 @@ function ProductCompareScreen({
           onClick: product ? () => onToggleProduct(product) : onUnavailableSelect,
           style: { top: `${top}px` },
           key: `select-${index}`,
-        }, h("img", { src: `${A}compare-select-cta.svg?v=soft1`, alt: "" }));
+        }, [
+          h("span", { className: "compare-select-plus", key: "plus" }, "+"),
+          h("span", { key: "label" }, "선택"),
+        ]);
       }),
       h("div", { className: "compare-bottom-cta-mask", key: "cta-mask" }),
       h("button", {

@@ -2173,6 +2173,63 @@ button:focus-visible {
   border-radius: 6px;
 }
 
+.compare-tabs-mask {
+  position: absolute;
+  left: 18px;
+  top: 294px;
+  width: 354px;
+  height: 40px;
+  z-index: 2;
+  background: #fff;
+  pointer-events: none;
+}
+
+.compare-tabs-real {
+  position: absolute;
+  left: 20px;
+  top: 296px;
+  width: 350px;
+  height: 36px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: start;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.compare-tab-real {
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #88898d;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  cursor: default;
+  padding: 0;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.compare-tab-real.is-active {
+  color: #005158;
+  font-weight: 700;
+}
+
+.compare-tab-real.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: #005158;
+}
+
 .compare-select-hotspot {
   position: absolute;
   left: 265.5px;
@@ -2186,13 +2243,43 @@ button:focus-visible {
   cursor: pointer;
   padding: 0;
   overflow: visible;
+  color: #005258;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-.compare-select-hotspot img {
-  width: 89px;
-  height: 34px;
-  display: block;
+.compare-select-hotspot::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 3px;
+  width: 80px;
+  height: 25px;
+  border: 1px solid #e6eff0;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.09);
   pointer-events: none;
+}
+
+.compare-select-hotspot span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.compare-select-plus {
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1;
+  margin-right: 5px;
+  transform: translateY(-1px);
 }
 
 .compare-slot-card {
@@ -2281,16 +2368,44 @@ button:focus-visible {
   filter: none;
   transform: none;
   box-shadow: none;
+  color: #005258;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-.compare-selected-button img {
-  width: 89px;
-  height: 34px;
-  display: block;
+.compare-selected-button::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 3px;
+  width: 81px;
+  height: 26px;
+  border: 1px solid #ecfbfc;
+  border-radius: 3px;
+  background: #f3f9f7;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   pointer-events: none;
-  opacity: 1;
-  filter: none;
-  transform: none;
+}
+
+.compare-selected-button span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.compare-selected-check {
+  width: 12px;
+  height: 8px;
+  margin-right: 5px;
+  transform: translateY(-1px) rotate(-45deg);
+  border-left: 2px solid #005258;
+  border-bottom: 2px solid #005258;
 }
 
 .compare-row-selection-glow {
