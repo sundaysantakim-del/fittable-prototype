@@ -427,7 +427,7 @@ function ProductCompareScreen({
   return h("div", { className: "figma-result-screen" }, [
     h("img", {
       className: "figma-result-image",
-      src: selected ? `${A}feature3-compare_4.svg?v=sharp1` : `${A}feature3-compare_2.svg?v=shadowsoft`,
+      src: selected ? `${A}feature3-compare_4.svg?v=sharp2` : `${A}feature3-compare_2.svg?v=sharp2`,
       alt: "제품 비교 화면",
       key: "image",
     }),
@@ -466,7 +466,7 @@ function ProductCompareScreen({
         onClick: () => onToggleProduct(product),
         style: { top: `${compareSelectButtonTops[product.rowIndex]}px` },
         key: `selected-${product.id}`,
-      }, h("img", { src: `${A}compare-selected-cta.svg?v=sharp1`, alt: "선택됨" }))),
+      }, h("img", { src: `${A}compare-selected-cta.svg?v=exact1`, alt: "선택됨" }))),
       compareSelectButtonTops.map((top, index) => {
         const product = compareDemoProducts.find((item) => item.rowIndex === index);
         return h("button", {
@@ -475,7 +475,7 @@ function ProductCompareScreen({
           onClick: product ? () => onToggleProduct(product) : onUnavailableSelect,
           style: { top: `${top}px` },
           key: `select-${index}`,
-        });
+        }, h("img", { src: `${A}compare-select-cta.svg?v=soft1`, alt: "" }));
       }),
       h("div", { className: "compare-bottom-cta-mask", key: "cta-mask" }),
       h("button", {

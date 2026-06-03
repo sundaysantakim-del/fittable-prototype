@@ -2085,6 +2085,9 @@ button:focus-visible {
   height: 844px;
   display: block;
   object-fit: fill;
+  opacity: 1;
+  filter: none;
+  transform: none;
 }
 
 .result-chip {
@@ -2177,8 +2180,19 @@ button:focus-visible {
   height: 34px;
   z-index: 3;
   border-radius: 6px;
-  background: transparent;
+  border: 0;
+  background: #fff;
+  box-shadow: none;
   cursor: pointer;
+  padding: 0;
+  overflow: visible;
+}
+
+.compare-select-hotspot img {
+  width: 89px;
+  height: 34px;
+  display: block;
+  pointer-events: none;
 }
 
 .compare-slot-card {
@@ -2266,6 +2280,7 @@ button:focus-visible {
   opacity: 1;
   filter: none;
   transform: none;
+  box-shadow: none;
 }
 
 .compare-selected-button img {
