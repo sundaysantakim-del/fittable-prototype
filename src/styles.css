@@ -269,8 +269,8 @@ button:focus-visible {
   border: 2px solid transparent;
   border-radius: 8px;
   background:
-    linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(90deg, #e2d8ff 0%, #8e69f9 100%) border-box;
+    linear-gradient(90deg, #fffdff 0%, #f8f4ff 100%) padding-box,
+    linear-gradient(90deg, #d3c4ff 0%, #8e69f9 100%) border-box;
   overflow: hidden;
   color: #000;
   font-family: Pretendard, Inter, sans-serif;
@@ -307,6 +307,45 @@ button:focus-visible {
   animation: demoHintPulse 2.9s cubic-bezier(0.4, 0, 0.2, 1) 1s infinite;
 }
 
+.recommend-button.demo-hint {
+  animation: recommendButtonBreath 2.9s cubic-bezier(0.4, 0, 0.2, 1) 1s infinite;
+}
+
+.recommend-button.demo-hint .recommend-button-icon {
+  animation: recommendIconTwinkle 2.9s ease-out 1s infinite;
+}
+
+@keyframes recommendButtonBreath {
+  0%,
+  72%,
+  100% {
+    transform: scale(1);
+  }
+  16% {
+    transform: scale(1.016);
+  }
+  42% {
+    transform: scale(1);
+  }
+}
+
+@keyframes recommendIconTwinkle {
+  0%,
+  64%,
+  100% {
+    filter: brightness(1) saturate(1);
+    opacity: 1;
+  }
+  16% {
+    filter: brightness(1.12) saturate(1.12);
+    opacity: 0.96;
+  }
+  32% {
+    filter: brightness(1.02) saturate(1.02);
+    opacity: 1;
+  }
+}
+
 @keyframes demoHintPulse {
   0%,
   72%,
@@ -327,15 +366,16 @@ button:focus-visible {
 @media (hover: hover) {
   .recommend-button:hover {
     filter: saturate(1.06);
-    box-shadow: 0 4px 12px rgba(142, 105, 249, 0.12);
+    box-shadow: 0 4px 12px rgba(142, 105, 249, 0.16);
   }
 
   .demo-hint:hover {
-    box-shadow: 0 4px 12px rgba(142, 105, 249, 0.12);
+    box-shadow: 0 4px 12px rgba(142, 105, 249, 0.16);
   }
 }
 
 .recommend-button:active {
+  animation: none;
   transform: scale(0.985);
   box-shadow: 0 2px 8px rgba(142, 105, 249, 0.1);
 }
@@ -691,6 +731,31 @@ button:focus-visible {
   gap: 8px;
   text-align: left;
   transition: border-color 260ms ease-out, box-shadow 260ms ease-out, background 260ms ease-out;
+}
+
+.sheet-card.goal-closed {
+  gap: 0;
+  padding-left: 18px;
+}
+
+.sheet-card.goal-closed .sheet-option-icon {
+  display: none;
+}
+
+.sheet-card.goal-closed .sheet-card-copy span {
+  max-width: 290px;
+}
+
+.goal-section .expanded-card > .sheet-card-head {
+  gap: 0;
+}
+
+.goal-section .expanded-card > .sheet-card-head > .sheet-option-icon {
+  display: none;
+}
+
+.goal-section .expanded-card > .sheet-card-head .sheet-card-copy span {
+  max-width: 290px;
 }
 
 .sheet-card.ingredient-closed {
@@ -2090,6 +2155,25 @@ button:focus-visible {
   transform: none;
 }
 
+.compare-product-card-shadow {
+  position: absolute;
+  top: 225px;
+  width: 166px;
+  height: 190px;
+  z-index: 1;
+  border-radius: 6px;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.compare-product-card-shadow-left {
+  left: 20px;
+}
+
+.compare-product-card-shadow-right {
+  left: 204px;
+}
+
 .result-chip {
   position: absolute;
   top: 209px;
@@ -2171,6 +2255,53 @@ button:focus-visible {
   background: transparent;
   cursor: pointer;
   border-radius: 6px;
+}
+
+.compare-logo-hotspot {
+  position: absolute;
+  left: 125px;
+  top: 52px;
+  width: 140px;
+  height: 48px;
+  z-index: 3;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.compare-recommend-tab-hotspot {
+  position: absolute;
+  left: 86px;
+  top: 786px;
+  width: 62px;
+  height: 54px;
+  z-index: 3;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.compare-save-hotspot {
+  position: absolute;
+  left: 322px;
+  top: 426px;
+  width: 28px;
+  height: 28px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.compare-save-icon {
+  width: 11px;
+  height: 16px;
+  display: block;
+  pointer-events: none;
 }
 
 .compare-tabs-mask {
@@ -2292,7 +2423,8 @@ button:focus-visible {
   border-radius: 8px;
   background: #fff;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.28);
-  animation: none;
+  animation: compare-slot-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center bottom;
 }
 
 .compare-slot-card::before {
@@ -2424,7 +2556,11 @@ button:focus-visible {
 @keyframes compare-slot-enter {
   from {
     opacity: 0;
-    transform: translateY(4px) scale(0.985);
+    transform: translateY(8px) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.01);
   }
   to {
     opacity: 1;

@@ -358,7 +358,7 @@ function IngredientSelectionList({ closing, selectedIngredients, toggleIngredien
 
 function RecommendationResult({ onEdit, onCompareStart }) {
   return h("div", { className: "figma-result-screen" }, [
-    h("img", { className: "figma-result-image", src: `${A}feature3-compare_1.svg`, alt: "추천 결과 비교 화면", key: "image" }),
+    h("img", { className: "figma-result-image", src: `${A}feature3-compare_1.svg?v=recommend2`, alt: "추천 결과 비교 화면", key: "image" }),
     h("img", { className: "result-chip result-chip-protein", src: `${A}result-chip-protein.svg`, alt: "", key: "chip-protein" }),
     h("img", { className: "result-chip result-chip-sugar", src: `${A}result-chip-sugar.svg`, alt: "", key: "chip-sugar" }),
     h("img", { className: "result-chip result-chip-corn-syrup", src: `${A}result-chip-corn-syrup.svg`, alt: "", key: "chip-corn-syrup" }),
@@ -411,12 +411,15 @@ const compareDemoProducts = [
 
 function ProductCompareScreen({
   onBack,
+  onRecommendationHome,
+  onToggleSave,
   onUnavailableSelect,
   onToggleProduct,
   onRemoveProduct,
   onCompare,
   selectedProducts,
   selected,
+  isSaved,
 }) {
   const selectedIds = new Set(selectedProducts);
   const selectedProductItems = selectedProducts
@@ -427,11 +430,27 @@ function ProductCompareScreen({
   return h("div", { className: "figma-result-screen" }, [
     h("img", {
       className: "figma-result-image",
-      src: selected ? `${A}feature3-compare_4.svg?v=sharp2` : `${A}feature3-compare_2.svg?v=realtext4`,
+      src: selected ? `${A}feature3-compare_4.svg?v=recommend2` : `${A}feature3-compare_2.svg?v=realtext4`,
       alt: "제품 비교 화면",
       key: "image",
     }),
+    selected ? [
+      h("span", { className: "compare-product-card-shadow compare-product-card-shadow-left", key: "compare-card-shadow-left" }),
+      h("span", { className: "compare-product-card-shadow compare-product-card-shadow-right", key: "compare-card-shadow-right" }),
+    ] : null,
     h("button", { className: "compare-back-hotspot", "aria-label": "추천 결과로 돌아가기", onClick: onBack, key: "back" }),
+    h("button", { className: "compare-logo-hotspot", "aria-label": "추천 결과 메인으로 이동", onClick: onRecommendationHome, key: "logo-home" }),
+    selected ? h("button", { className: "compare-recommend-tab-hotspot", "aria-label": "추천 탭으로 이동", onClick: onRecommendationHome, key: "recommend-tab" }) : null,
+    selected ? h("button", {
+      className: `compare-save-hotspot${isSaved ? " saved" : ""}`,
+      "aria-label": isSaved ? "비교 결과 저장 해제" : "비교 결과 저장",
+      onClick: onToggleSave,
+      key: "save",
+    }, h("img", {
+      className: "compare-save-icon",
+      src: `${A}${isSaved ? "bookmark-filled.svg" : "bookmark.svg"}?v=savefill1`,
+      alt: "",
+    })) : null,
     selected ? null : [
       h("div", { className: "compare-tabs-mask", key: "tabs-mask" }),
       h("nav", { className: "compare-tabs-real", "aria-label": "비교 상품 카테고리", key: "tabs" },
@@ -519,6 +538,7 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
   const [currentStep, setCurrentStep] = React.useState(1);
   const [isScrolling, setScrolling] = React.useState(false);
   const [selectedProducts, setSelectedProducts] = React.useState([]);
+  const [compareSaved, setCompareSaved] = React.useState(false);
   const [toastVisible, setToastVisible] = React.useState(false);
   const [toastMessage, setToastMessage] = React.useState("상세 기준은 당류 설정 예시를 참고해주세요");
   const [toastKey, setToastKey] = React.useState(0);
@@ -585,6 +605,13 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
   const removeCompareProduct = (productId) => {
     setSelectedProducts((current) => current.filter((id) => id !== productId));
   };
+  const toggleCompareSave = () => {
+    setCompareSaved((current) => {
+      const next = !current;
+      showToast(next ? "비교 결과를 저장했어요" : "저장을 해제했어요");
+      return next;
+    });
+  };
   const openSelectedCompareResult = () => {
     if (selectedProducts.length < 2) {
       showToast("비교할 제품 2개를 선택해주세요");
@@ -607,6 +634,15 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
     setResultDissolving(true);
     window.setTimeout(() => {
       setScreenMode("compare");
+      setResultDissolving(false);
+    }, 300);
+  };
+  const goToRecommendationMain = () => {
+    setSelectedProducts([]);
+    if (screenMode === "result") return;
+    setResultDissolving(true);
+    window.setTimeout(() => {
+      setScreenMode("result");
       setResultDissolving(false);
     }, 300);
   };
@@ -715,12 +751,15 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
       h("div", { className: resultDissolving ? "result-dissolve leaving" : "result-dissolve" },
         ProductCompareScreen({
           onBack: backToResult,
+          onRecommendationHome: goToRecommendationMain,
+          onToggleSave: toggleCompareSave,
           onUnavailableSelect: showCompareDemoToast,
           onToggleProduct: toggleCompareProduct,
           onRemoveProduct: removeCompareProduct,
           onCompare: openSelectedCompareResult,
           selectedProducts,
           selected: false,
+          isSaved: compareSaved,
         }),
       ),
       toastVisible ? h("div", { className: "demo-toast", key: `toast-${toastKey}`, role: "status" }, toastMessage) : null,
@@ -732,14 +771,18 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
       h("div", { className: resultDissolving ? "result-dissolve leaving" : "result-dissolve" },
         ProductCompareScreen({
           onBack: backToCompareSelection,
+          onRecommendationHome: goToRecommendationMain,
+          onToggleSave: toggleCompareSave,
           onUnavailableSelect: showCompareDemoToast,
           onToggleProduct: toggleCompareProduct,
           onRemoveProduct: removeCompareProduct,
           onCompare: openSelectedCompareResult,
           selectedProducts,
           selected: true,
+          isSaved: compareSaved,
         }),
       ),
+      toastVisible ? h("div", { className: "demo-toast", key: `toast-${toastKey}`, role: "status" }, toastMessage) : null,
     );
   }
 
@@ -770,7 +813,7 @@ function RecommendationSheet({ onClose, hintDismissed, dismissHint }) {
                   ]),
                 ),
               ])
-            : h("button", { className: `${goalCount ? "sheet-card closed selected-closed" : "sheet-card closed"}${hintDismissed.goal ? "" : " demo-hint"}`, key: "card", onMouseDown: (event) => event.preventDefault(), onClick: openGoal }, [
+            : h("button", { className: `${goalCount ? "sheet-card closed goal-closed selected-closed" : "sheet-card closed goal-closed"}${hintDismissed.goal ? "" : " demo-hint"}`, key: "card", onMouseDown: (event) => event.preventDefault(), onClick: openGoal }, [
                 h("span", { className: "sheet-option-icon green", key: "icon" },
                   h("img", { src: `${A}recommendation/icon-goal-recommend.svg`, alt: "" }),
                 ),
@@ -875,7 +918,7 @@ function ProductList() {
 
 function BottomTabBar() {
   return h("nav", { className: "bottom-tabs", "aria-label": "하단 메뉴" },
-    h("img", { className: "bottom-tabs-image", src: `${A}bottom-tabbar.svg`, alt: "" }),
+    h("img", { className: "bottom-tabs-image", src: `${A}bottom-tabbar.svg?v=recommend1`, alt: "" }),
   );
 }
 
